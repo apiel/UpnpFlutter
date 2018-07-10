@@ -16,7 +16,7 @@ class DeviceDiscoverer {
     this.log = l;
   }
 
-  Future start() async {
+  Future start(VoidCallback fn) async {
     _socket = await RawDatagramSocket.bind(InternetAddress.anyIPv4.address, 0);
 
     _socket.broadcastEnabled = true;
@@ -35,6 +35,7 @@ class DeviceDiscoverer {
           var data = utf8.decode(packet.data);
           print(data);
           this.log.insert(0, data);
+          fn();
 
           break;
       }
@@ -79,9 +80,9 @@ class DeviceDiscoverer {
 
   Timer _discoverySearchTimer;
 
-  Future quickDiscoverClients() async {
+  Future quickDiscoverClients(VoidCallback fn) async {
     if (_socket == null) {
-      await start();
+      await start(fn);
       await new Future.delayed(const Duration(seconds: 1));
     }
 
@@ -140,7 +141,9 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
 
   Future _discover() async {
-    await widget.discoverer.quickDiscoverClients();
+    await widget.discoverer.quickDiscoverClients(() {
+      setState(() {});
+    });
     setState(() {});
   }
 
