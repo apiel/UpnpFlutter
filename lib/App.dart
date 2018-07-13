@@ -1,17 +1,9 @@
 import 'package:flutter/material.dart';
 
-import './services/DeviceDiscoverer.dart';
-import './screens/LogScreen/LogScreen.dart';
+// import './screens/LogScreen/LogScreen.dart';
+import './screens/DevicesScreen/DevicesScreen.dart';
 
 class App extends StatelessWidget {
-  DeviceDiscoverer discoverer;
-  List log;
-
-  App(DeviceDiscoverer d, List l) {
-    this.discoverer = d;
-    this.log = l;
-  }
-
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
@@ -21,11 +13,8 @@ class App extends StatelessWidget {
       theme: new ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: new LogScreen(
-        title: 'Flutter Demo Home Screen',
-        discoverer: discoverer,
-        log: log,
-      ),
+      home: new DevicesScreen(),
+      // home: new LogScreen(),
     );
   }
 }
