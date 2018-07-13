@@ -165,7 +165,7 @@ class _MyHomePageState extends State<MyHomePage> {
       floatingActionButton: new FloatingActionButton(
         onPressed: _discover,
         tooltip: 'Discover',
-        child: new Icon(Icons.add),
+        child: new Icon(Icons.search),
       ),
     );
   }
