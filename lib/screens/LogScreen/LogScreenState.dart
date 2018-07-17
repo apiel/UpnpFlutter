@@ -19,9 +19,32 @@ class LogScreenState extends State<LogScreen> {
     setState(() {});
   }
 
-  List<Text> _buildList() {
+  List<RichText> _buildList() {
     return this.globals.log == null ? []
-         : this.globals.log.map((value) => new Text(value)).toList();
+         : this.globals.log.map((item) =>
+
+
+              new RichText(
+                text: new TextSpan(
+                  style: new TextStyle(
+                    fontSize: 14.0,
+                    color: Colors.black,
+                  ),
+                  children: <TextSpan>[
+                    new TextSpan(text: '${item.type} ', style: new TextStyle(fontWeight: FontWeight.bold)),
+                    new TextSpan(text: item.value),
+                  ],
+                ),
+              )
+
+
+
+              // new RichText(
+              //   children: <TextSpan>[
+              //   new TextSpan(text: item.type, style: new TextStyle(fontWeight: FontWeight.bold)),
+              //   new TextSpan(text: item.value),
+              // ])
+            ).toList();
   }
 
   @override

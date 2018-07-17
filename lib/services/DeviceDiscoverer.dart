@@ -4,14 +4,16 @@ import 'dart:io';
 import 'dart:async';
 import 'dart:convert';
 
+import '../models/LogItem.dart';
+
 class DeviceDiscoverer {
   RawDatagramSocket _socket;
   StreamController _clientController =
     new StreamController.broadcast();
 
-  List log;
+  List<LogItem> log;
 
-  DeviceDiscoverer(List l) {
+  DeviceDiscoverer(List<LogItem> l) {
     this.log = l;
   }
 
@@ -32,8 +34,7 @@ class DeviceDiscoverer {
           }
 
           var data = utf8.decode(packet.data);
-          print(data);
-          this.log.insert(0, data);
+          this.log.insert(0, new LogItem(data, type: 'upnp'));
           fn();
 
           break;
@@ -58,7 +59,7 @@ class DeviceDiscoverer {
   Stream get clients => _clientController.stream;
 
   void search([String searchTarget]) {
-    this.log.insert(0, '#### send search');
+    this.log.insert(0, new LogItem('send upnp search'));
     print('send search');
     if (searchTarget == null) {
       searchTarget = "upnp:rootdevice";
