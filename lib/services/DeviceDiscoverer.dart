@@ -1,4 +1,3 @@
-import 'dart:ui';
 import 'dart:io';
 
 import 'dart:async';
@@ -17,7 +16,7 @@ class DeviceDiscoverer {
     this.log = l;
   }
 
-  Future start(VoidCallback fn) async {
+  Future start(void Function(String) fn) async {
     _socket = await RawDatagramSocket.bind(InternetAddress.anyIPv4.address, 0);
 
     _socket.broadcastEnabled = true;
@@ -35,7 +34,15 @@ class DeviceDiscoverer {
 
           var data = utf8.decode(packet.data);
           this.log.insert(0, new LogItem(data, type: 'upnp'));
-          fn();
+          fn(data);
+
+          // maybe we dont do this here
+          // RegExp regExp = new RegExp(r"LOCATION: *(.*)\s", caseSensitive: false);
+          // var match = regExp.firstMatch(data);
+          // if (match != null) {
+          //   this.log.insert(0, new LogItem(match[1], type: 'upnp location'));
+          //   fn();
+          // }
 
           break;
       }
@@ -80,7 +87,7 @@ class DeviceDiscoverer {
 
   Timer _discoverySearchTimer;
 
-  Future quickDiscoverClients(VoidCallback fn) async {
+  Future quickDiscoverClients(void Function(String) fn) async {
     if (_socket == null) {
       await start(fn);
       await new Future.delayed(const Duration(seconds: 1));

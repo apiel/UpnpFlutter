@@ -13,7 +13,11 @@ class LogScreenState extends State<LogScreen> {
   }
 
   Future _discover() async {
-    await this.globals.discoverer.quickDiscoverClients(() {
+    await this.globals.discoverer.quickDiscoverClients((data) async {
+      // print(data);
+      String body = await this.globals.parser.parse(data);
+      // print(body);
+      // WIP
       setState(() {});
     });
     setState(() {});
@@ -22,8 +26,6 @@ class LogScreenState extends State<LogScreen> {
   List<RichText> _buildList() {
     return this.globals.log == null ? []
          : this.globals.log.map((item) =>
-
-
               new RichText(
                 text: new TextSpan(
                   style: new TextStyle(
@@ -36,14 +38,6 @@ class LogScreenState extends State<LogScreen> {
                   ],
                 ),
               )
-
-
-
-              // new RichText(
-              //   children: <TextSpan>[
-              //   new TextSpan(text: item.type, style: new TextStyle(fontWeight: FontWeight.bold)),
-              //   new TextSpan(text: item.value),
-              // ])
             ).toList();
   }
 
