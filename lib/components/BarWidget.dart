@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 
-import './MenuWidget.dart';
 import './../screens/LogScreen.dart';
 
 class BarWidget extends AppBar {
@@ -10,7 +9,7 @@ class BarWidget extends AppBar {
         actions: <Widget>[
           // action button
           new IconButton(
-            icon: new Icon(Icons.search),
+            icon: new Icon(Icons.remove_red_eye),
             onPressed: () {
               Navigator.push(
                 context,
@@ -18,7 +17,6 @@ class BarWidget extends AppBar {
               );
             },
           ),
-          new MenuWidget(),
         ],
       );
 }

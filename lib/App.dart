@@ -9,10 +9,13 @@ class App extends StatelessWidget {
   Widget build(BuildContext context) {
 
     return new MaterialApp(
-      title: 'Flutter Demo',
-      theme: new ThemeData(
-        primarySwatch: Colors.blue,
-      ),
+      debugShowCheckedModeBanner: false,
+      title: 'My home bridge',
+      // color: Colors.blue,
+      // theme: new ThemeData(
+      //   primarySwatch: Colors.blue,
+      // ),
+      theme: new ThemeData.dark(),
       home: new DevicesScreen(),
       // home: new LogScreen(),
     );

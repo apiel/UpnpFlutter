@@ -28,17 +28,10 @@ class DevicesScreenState extends State<DevicesScreen> {
   }
 
   Future<Null> _handleRefresh() {
-    print('yoyoyoyo refrsh');
-    // return new Future.delayed(const Duration(seconds: 1), () => null);
-
     return this.globals.discoverer.quickDiscoverClients((data) async {
-      // print(data);
-      String body = await this.globals.parser.parse(data);
-      // print(body);
-      // WIP
+      await this.globals.parser.parse(data);
       setState(() {});
     });
-    // return null;
   }
 
   @override
