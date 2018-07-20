@@ -1,7 +1,14 @@
 import 'package:flutter/material.dart';
 
 class AnimatedInOutWidget extends StatefulWidget {
-  AnimatedInOutWidget({ Key key }) : super(key: key);
+  final Widget child;
+  final int update;
+
+  AnimatedInOutWidget({
+    Key key,
+    this.child,
+    this.update,
+  }) : super(key: key);
 
   @override
   AnimatedInOutWidgetState createState() =>
@@ -33,8 +40,19 @@ class AnimatedInOutWidgetState extends State<AnimatedInOutWidget> with TickerPro
     return AnimatedBuilder(
         animation: controller,
         builder: (BuildContext context, Widget child) {
-          return child;
+          return new Opacity(
+            opacity: 0.01 * animation.value,
+            child: widget.child
+          );
         });
+  }
+
+  @override
+  void didUpdateWidget(AnimatedInOutWidget oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (oldWidget.update != widget.update) {
+      controller.forward();
+    }
   }
 
   @override
