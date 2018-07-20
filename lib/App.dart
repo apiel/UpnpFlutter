@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 // import './screens/LogScreen/LogScreen.dart';
-import './screens/DevicesScreen/DevicesScreen.dart';
+import './screens/DevicesScreen.dart';
 
 class App extends StatelessWidget {
   // This widget is the root of your application.

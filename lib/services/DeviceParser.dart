@@ -8,9 +8,11 @@ import '../models/Devices.dart';
 
 class DeviceParser {
   List<LogItem> log;
+  Devices devices;
 
-  DeviceParser(List<LogItem> l) {
+  DeviceParser(List<LogItem> l, Devices d) {
     this.log = l;
+    this.devices = d;
   }
 
   String getUrl(String data) {
@@ -54,22 +56,7 @@ class DeviceParser {
       if (hueUrl != null) {
         String jsonString = await callUrl(hueUrl);
         Map decoded = json.decode(jsonString);
-
-        // List<Device> devices = [];
-        // decoded['lights'].forEach((key, value) =>
-        //   devices.add(new Device.fromJson(value))
-        // );
-
-        // print('wassssssssss');
-        // List devices = decoded['lights'].map((key, value) =>
-        //   new Device.fromJson(value)
-        // ).toList();
-
-        var devices = new Devices.fromJson(decoded);
-
-        print('yooyoyoyoyo');
-        print(devices);
-        print('asdmasdads');
+        this.devices.fromJson(decoded);
 
         return jsonString;
       }

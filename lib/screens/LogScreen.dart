@@ -1,8 +1,14 @@
 import 'package:flutter/material.dart';
 import 'dart:async';
 
-import "./LogScreen.dart";
-import "../../Globals.dart";
+import "../Globals.dart";
+
+class LogScreen extends StatefulWidget {
+  LogScreen({Key key}) : super(key: key);
+
+  @override
+  LogScreenState createState() => new LogScreenState();
+}
 
 class LogScreenState extends State<LogScreen> {
 

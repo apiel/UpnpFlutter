@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 import './MenuWidget.dart';
-import './../screens/LogScreen/LogScreen.dart';
+import './../screens/LogScreen.dart';
 
 class BarWidget extends AppBar {
   BarWidget({ Key key, Widget title, BuildContext context }) : super(

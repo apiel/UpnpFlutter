@@ -56,6 +56,7 @@ class DeviceDiscoverer {
     }
 
     _socket.close();
+    _socket = null;
 
     if (!_clientController.isClosed) {
       _clientController.close();

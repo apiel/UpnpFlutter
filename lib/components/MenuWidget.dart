@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import './../screens/LogScreen/LogScreen.dart';
+import './../screens/LogScreen.dart';
 
 class MenuWidget extends StatelessWidget {
   @override
