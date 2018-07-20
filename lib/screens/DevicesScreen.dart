@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'dart:async';
 
-import './../components/BarWidget.dart';
+import './../widgets/BarWidget.dart';
+import './../widgets/DeviceWidget.dart';
 import "../Globals.dart";
 
 class DevicesScreen extends StatefulWidget {
@@ -20,10 +21,10 @@ class DevicesScreenState extends State<DevicesScreen> {
     this.globals = new Globals();
   }
 
-  List<Card> _buildList() {
+  List<DeviceWidget> _buildList() {
     return this.globals.devices == null ? []
          : this.globals.devices.list.values.map((device) =>
-              new Card(child: new Text(device.name))
+              new DeviceWidget(device)
             ).toList();
   }
 

@@ -12,7 +12,6 @@ class LogScreen extends StatelessWidget {
               new RichText(
                 text: new TextSpan(
                   style: new TextStyle(
-                    // fontSize: 14.0,
                     color: Colors.white70,
                   ),
                   children: <TextSpan>[

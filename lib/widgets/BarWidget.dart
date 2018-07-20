@@ -9,7 +9,7 @@ class BarWidget extends AppBar {
         actions: <Widget>[
           // action button
           new IconButton(
-            icon: new Icon(Icons.remove_red_eye),
+            icon: new Icon(Icons.visibility),
             onPressed: () {
               Navigator.push(
                 context,
