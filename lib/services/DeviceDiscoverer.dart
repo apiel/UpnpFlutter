@@ -88,15 +88,16 @@ class DeviceDiscoverer {
 
   Timer _discoverySearchTimer;
 
-  Future quickDiscoverClients(void Function(String) fn) async {
+  Future<Null> quickDiscoverClients(void Function(String) fn) async {
     if (_socket == null) {
       await start(fn);
       await new Future.delayed(const Duration(seconds: 1));
     }
 
     search("upnp:rootdevice");
-    new Future.delayed(new Duration(seconds: 10), () {
+    await new Future.delayed(new Duration(seconds: 10), () {
       stop();
     });
+    return null;
   }
 }

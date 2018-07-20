@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'dart:async';
 
 import './../components/BarWidget.dart';
 import "../Globals.dart";
@@ -12,6 +13,7 @@ class DevicesScreen extends StatefulWidget {
 
 class DevicesScreenState extends State<DevicesScreen> {
 
+  final GlobalKey<RefreshIndicatorState> _refreshIndicatorKey = new GlobalKey<RefreshIndicatorState>();
   Globals globals;
 
   DevicesScreenState() {
@@ -20,9 +22,23 @@ class DevicesScreenState extends State<DevicesScreen> {
 
   List<Card> _buildList() {
     return this.globals.devices == null ? []
-         : this.globals.devices.list.map((device) =>
+         : this.globals.devices.list.values.map((device) =>
               new Card(child: new Text(device.name))
             ).toList();
+  }
+
+  Future<Null> _handleRefresh() {
+    print('yoyoyoyo refrsh');
+    // return new Future.delayed(const Duration(seconds: 1), () => null);
+
+    return this.globals.discoverer.quickDiscoverClients((data) async {
+      // print(data);
+      String body = await this.globals.parser.parse(data);
+      // print(body);
+      // WIP
+      setState(() {});
+    });
+    // return null;
   }
 
   @override
@@ -32,20 +48,25 @@ class DevicesScreenState extends State<DevicesScreen> {
         title: new Text('Devices'),
         context: context,
       ),
-      body: OrientationBuilder(
+      body: new OrientationBuilder(
         builder: (context, orientation) {
-          return new CustomScrollView(
-            primary: false,
-            slivers: <Widget>[
-              new SliverPadding(
-                padding: const EdgeInsets.all(20.0),
-                sliver: new SliverGrid.count(
-                  crossAxisSpacing: 10.0,
-                  crossAxisCount: orientation == Orientation.portrait ? 2 : 4,
-                  children: this._buildList(),
+          return  new RefreshIndicator(
+            key: _refreshIndicatorKey,
+            onRefresh: _handleRefresh,
+            child: new CustomScrollView(
+              physics: const AlwaysScrollableScrollPhysics(),
+              primary: false,
+              slivers: <Widget>[
+                new SliverPadding(
+                  padding: const EdgeInsets.all(20.0),
+                  sliver: new SliverGrid.count(
+                    crossAxisSpacing: 10.0,
+                    crossAxisCount: orientation == Orientation.portrait ? 2 : 4,
+                    children: this._buildList(),
+                  ),
                 ),
-              ),
-            ],
+              ],
+            ),
           );
         }
       )
