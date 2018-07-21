@@ -2,6 +2,7 @@
 import 'dart:async';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
+import '../utils/rawHttp.dart'; // we should use this
 
 import '../models/LogItem.dart';
 import '../models/Devices.dart';
