@@ -28,10 +28,10 @@ class DeviceParser {
 
   String isHueUrl(String url) {
     String hueUrl;
-    RegExp regExp = new RegExp(r"^(.*)/api/setup.xml$", caseSensitive: false); // https?://
+    RegExp regExp = new RegExp(r"^(.*/api)/setup.xml$", caseSensitive: false); // https?://
     var match = regExp.firstMatch(url);
     if (match != null) {
-      hueUrl = '${match[1]}/api/config.json';
+      hueUrl = match[1];
       this.log.insert(0, new LogItem(hueUrl, type: 'hue config'));
     }
     return hueUrl;
@@ -54,9 +54,9 @@ class DeviceParser {
     if (url != null) {
       String hueUrl = isHueUrl(url);
       if (hueUrl != null) {
-        String jsonString = await callUrl(hueUrl);
+        String jsonString = await callUrl('$hueUrl/config.json');
         Map decoded = json.decode(jsonString);
-        this.devices.fromJson(decoded);
+        this.devices.fromJson(decoded, hueUrl);
 
         return jsonString;
       }

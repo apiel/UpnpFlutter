@@ -5,9 +5,9 @@ class Devices {
 
   Devices();
 
-  fromJson(Map json) {
+  fromJson(Map json, String url) {
     json['lights'].forEach((key, value) =>
-      this.list[key] = new Device.fromJson(value)
+      this.list[key] = new Device.fromJson(value, url)
     );
   }
 }

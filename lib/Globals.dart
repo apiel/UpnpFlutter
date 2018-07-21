@@ -17,6 +17,7 @@ class Globals {
   }
 
   Globals._internal() {
+    // need to create a log classs and slice it to have max size of 100
     this.log = [new LogItem('Upnp discovery...')];
     this.devices = new Devices();
     // this.log = ['Upnp discovery...'];

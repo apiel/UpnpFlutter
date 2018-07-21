@@ -7,10 +7,10 @@ class Device {
 
   Device(this.uid, this.name, this.on, this.level, this.url);
 
-  Device.fromJson(Map json)
+  Device.fromJson(Map json, String url)
       : name = json['name'],
         uid = json['uniqueid'],
         on = json['state']['on'],
         level = json['state']['bri'],
-        url = '';
+        this.url = url;
 }

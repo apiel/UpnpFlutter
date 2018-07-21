@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../models/Device.dart';
 import './AnimatedInOutWidget.dart';
+import '../services/DeviceService.dart';
 
 class DeviceWidget extends StatefulWidget {
   final Device device;
@@ -16,12 +17,22 @@ class DeviceWidget extends StatefulWidget {
 }
 
 class DeviceWidgetState extends State<DeviceWidget> with TickerProviderStateMixin {
+  DeviceService deviceService;
   final Device device;
   List<String> values;
   int currentValue = 0;
   int _pressedCount = 0;
 
-  DeviceWidgetState(this.device, this.values);
+  DeviceWidgetState(this.device, this.values) {
+    deviceService = new DeviceService(this.device);
+  }
+
+  _onTap() {
+    setState(() {
+      this.deviceService.send(this.values[this.currentValue]);
+      _pressedCount++;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -29,11 +40,7 @@ class DeviceWidgetState extends State<DeviceWidget> with TickerProviderStateMixi
           update: _pressedCount,
             child: new Card(
               child: new GestureDetector(
-                onTap: () {
-                  setState(() {
-                    _pressedCount++;
-                  });
-                },
+                onTap: this._onTap,
                 onHorizontalDragEnd: (drag) {
                   setState(() {
                     int direction = drag.velocity.pixelsPerSecond.dx > 0 ? 1 : -1;
