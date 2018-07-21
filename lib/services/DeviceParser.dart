@@ -1,8 +1,9 @@
 // import 'dart:io';
 import 'dart:async';
 import 'dart:convert';
-import 'package:http/http.dart' as http;
-import '../utils/rawHttp.dart'; // we should use this
+
+import '../utils/rawHttp.dart';
+import '../utils/extractJson.dart';
 
 import '../models/LogItem.dart';
 import '../models/Devices.dart';
@@ -40,14 +41,9 @@ class DeviceParser {
 
   Future<String> callUrl(String url) async {
     this.log.insert(0, new LogItem(url, type: 'call url'));
-    try {
-      http.Response response = await http.get(url);
-      this.log.insert(0, new LogItem(response.body, type: 'parse body'));
-      return response.body;
-    } catch (e) {
-      this.log.insert(0, new LogItem(e.toString(), type: '!error'));
-    }
-    return null;
+    String response = await rawHttp(url);
+    this.log.insert(0, new LogItem(response, type: 'raw http'));
+    return response;
   }
 
   Future<String> parse(String data) async {
@@ -55,10 +51,12 @@ class DeviceParser {
     if (url != null) {
       String hueUrl = isHueUrl(url);
       if (hueUrl != null) {
-        String jsonString = await callUrl('$hueUrl/config.json');
-        Map decoded = json.decode(jsonString);
-        this.devices.fromJson(decoded, hueUrl);
-
+        String response = await callUrl('$hueUrl/config.json');
+        String jsonString = extractJson(response);
+        if (jsonString != null) {
+          Map decoded = json.decode(jsonString);
+          this.devices.fromJson(decoded, hueUrl);
+        }
         return jsonString;
       }
     }

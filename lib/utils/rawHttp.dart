@@ -7,7 +7,7 @@ Future<String> rawHttp(String url, {
   String contentType: 'application/json',
 }) async {
 
-  Completer c = new Completer();
+  Completer<String> c = new Completer();
 
   Uri uri = Uri.parse(url);
   Socket socket = await Socket.connect(uri.host, uri.port);
@@ -21,17 +21,21 @@ $body""";
 
   socket.listen((response) {
       String res = new String.fromCharCodes(response).trim();
+      // print('res');
+      // print(res);
       c.complete(res);
     },
     onDone: () {
-      print("Done");
+      // print("Done");
       socket.destroy();
     });
   socket.write(data);
 
   new Timer(new Duration(seconds: 10), () {
-    socket.destroy();
-    c.completeError('Request timeout');
+    if (!c.isCompleted) {
+      socket.destroy();
+      c.completeError('Request timeout');
+    }
   });
 
   return c.future;

@@ -17,11 +17,7 @@ class DeviceService {
   // same as DeviceParser maybe we can put this somewhere else
   Future<String> callUrl(String url, String data) async {
     this.globals.log.insert(0, new LogItem(url, type: 'call url'));
-    try {
-      await rawHttp(url, method: 'POST', body: data);
-    } catch (e) {
-      this.globals.log.insert(0, new LogItem(e.toString(), type: '!error post'));
-    }
+    await rawHttp(url, method: 'POST', body: data);
     return null;
   }
 
