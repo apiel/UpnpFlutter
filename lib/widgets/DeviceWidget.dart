@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'dart:async';
 
 import '../models/Device.dart';
 import './AnimatedInOutWidget.dart';
@@ -18,7 +19,7 @@ class DeviceWidget extends StatefulWidget {
 
 class DeviceWidgetState extends State<DeviceWidget> with TickerProviderStateMixin {
   DeviceService deviceService;
-  final Device device;
+  Device device;
   List<String> values;
   int currentValue = 0;
   int _pressedCount = 0;
@@ -27,15 +28,17 @@ class DeviceWidgetState extends State<DeviceWidget> with TickerProviderStateMixi
     deviceService = new DeviceService(this.device);
   }
 
-  _onTap() {
-    setState(() {
-      this.deviceService.send(this.values[this.currentValue]);
-      _pressedCount++;
-    });
+  Future<Null> _onTap() async {
+    setState(() { _pressedCount++; });
+    this.device = await this.deviceService.send(this.values[this.currentValue]);
+    setState(() {});
+
+    return null;
   }
 
   @override
   Widget build(BuildContext context) {
+    print(this.device.on);
     return AnimatedInOutWidget(
           update: _pressedCount,
             child: new Card(
@@ -65,7 +68,10 @@ class DeviceWidgetState extends State<DeviceWidget> with TickerProviderStateMixi
                     children: <Widget>[
                       new Text(this.device.name),
                       new Icon(Icons.wb_incandescent),
-                      new Text(this.values[this.currentValue]),
+                      new Text(this.device.on == true ? 'ON' : 'OFF',
+                          style: new TextStyle(fontWeight: FontWeight.bold)),
+                      new Text(this.values[this.currentValue],
+                          style: new TextStyle(color: Colors.white.withOpacity(0.4), fontSize: 10.0)),
                     ],
                   ),
                 ),

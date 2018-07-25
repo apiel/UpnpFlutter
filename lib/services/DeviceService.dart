@@ -24,7 +24,7 @@ class DeviceService {
     return response;
   }
 
-  Future<String> send(String action) async {
+  Future<Device> send(String action) async {
     String url = '${this.device.url}/S6QJ3NqpQzsR6ZFzOBgxSRJPW58C061um8oP8uhf/lights/${this.device.uid}/state';
     // String url = '${this.device.url}/S6QJ3NqpQzsR6ZFzOBgxSRJPW58C061um8oP8uhf/lights/state';
     String newState = action == 'ON' || (action == 'TOGGLE' && this.device.on == false) ? 'true' : 'false';
@@ -36,12 +36,13 @@ class DeviceService {
       Map decoded = json.decode(jsonString);
       Map success = decoded['success'];
       if (success != null) {
-        this.device = new Device(
+        this.device = new Device( // find how to make a copy
           this.device.uid,
           this.device.name,
           success['/lights/${this.device.uid}/state/on'],
           this.device.level,
           this.device.url);
+        return this.device;
       }
     }
     return null;
